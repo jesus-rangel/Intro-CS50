@@ -14,10 +14,12 @@ int main(int argc, char *argv[])
   }
   for (int i = 1; i < argc; i++)
   {
-    for (int j = 0, length = strlen(argv[i]); j < length; j++)
+    int j, length = strlen(argv[i]);
+    for (j = 0; j < length && argv[i][j] != '\0' && isalpha(argv[i][j]); j++)
     {
       candidates[i][j] = argv[i][j];
     }
+    candidates[i][j] = '\0';
     printf("Candidate%d: %s\n", i, candidates[i]);
   }
   int votes;
@@ -25,18 +27,17 @@ int main(int argc, char *argv[])
   scanf("%d", &votes);
   for (int i = 0; i < votes; i++)
   {
+    // Alice Bob Charlie
+    char name[10];
+    printf("Vote: ");
+    scanf("%s", name);
+    printf("%s\n", name);
     for (int j = 0; j < argc; j++)
     {
-      char name[10];
-      printf("Vote: ");
-      fgets(name, sizeof(name), stdin);
-      if (strcmp(name, candidates[j]) == 0)
+      if (strcmp(candidates[j], name) == 0)
       {
-        puts("Valid Vote");
-      }
-      else
-      {
-        puts("Invalid Vote");
+        puts("Valid vote");
+        break;
       }
     }
   }

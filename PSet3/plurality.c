@@ -1,7 +1,7 @@
-#include <cs50.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 // Max number of candidates
 #define MAX 9
@@ -42,7 +42,18 @@ int main(int argc, char *argv[])
   }
 
   // Get names of candidates from argument list
-  get_names(argv[1]);
+  for (int i = 1; i < argc; i++)
+  {
+    // I also tried strcpy(candidate[i - 1].name, argv[i]);
+    // Didn't work, just as well as the next solution didn't work
+    int j, length = strlen(argv[i]);
+    for (j = 0; j < length && argv[i][j] != '\0' && isalpha(argv[i][j]); j++)
+    {
+      candidates[i].name[j] = argv[i][j];
+    }
+    candidates[i].name[j] = '\0';
+    // printf("Candidate%d: %s\n", i, candidates[i]);
+  }
 
   int voter_count;
   printf("Number of voters: ");
@@ -52,75 +63,28 @@ int main(int argc, char *argv[])
   {
     char name[20];
     printf("Vote: ");
-    fgets(name, sizeof(name), stdin);
-    /*Puts("Name variable: ")
-    for (int i = 0; i < strlen(name), i++)
-    {
-      printf("%c", name[i])
-    }
-    Puts("Candidate name variable: ")
-    for (int = 0; i < candidate_count; i++
-    {
-      for (int j = 0; j < strlen(candidate[i].name); j++)
-      printf("%c", candidate[i].name[j]);
-    })*/
-    // Check for invalid vote
+    scanf("%s", name);
     if (!vote(name))
     {
       printf("Invalid vote.\n");
     }
-    return 0;
     // Display winner of election
     print_winner();
   }
-}
-
-// Get names of candidates from argument list
-void get_names(char argv[1])
-{
-  int j = 0, k = 0;
-  // Iterating through characters in argument string of voters
-  for (int i = 0, length = strlen(argv[1]); i < length; i++)
-  {
-    // Iterate through each letter in the string
-    if (isalpha(argv[1][i]))
-    {
-      candidates[j].name[k] = argv[1][i];
-      k++;
-    }
-    // If we run into something other than a letter
-    // Input end of string character
-    // Reset k to zero (characters in the candidate name)
-    // And increase j to go get next candidate's name
-    else
-    {
-      candidates[j].name[k] = '\0';
-      k = 0;
-      j++;
-    }
-  }
+  return 0;
 }
 
 // Update vote totals given a new vote
 bool vote(char name[20])
 {
-  // Simple iteration through array
   for (int i = 0; i < candidate_count; i++)
   {
-
-    for (int j = 0, length = strlen(name); j < length; j++)
+    if (strcmp(candidates[i].name, name) == 0)
     {
-      if (candidates[i] name[j] != name[j])
-      {
-        return false
-      }
-    }
-    else
-    {
-      candidates[i].votes++;
       return true;
     }
   }
+  return false;
 }
 
 // Print the winner (or winners) of the election
