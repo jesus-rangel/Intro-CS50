@@ -25,11 +25,11 @@ int main(int argc, char *argv[])
   scanf("%d", &votes);
   for (int i = 0; i < votes; i++)
   {
-    char name[10];
-    printf("Vote: ");
-    fgets(name, sizeof(name), stdin);
     for (int j = 0; j < argc; j++)
     {
+      char name[10];
+      printf("Vote: ");
+      fgets(name, sizeof(name), stdin);
       if (strcmp(name, candidates[j]) == 0)
       {
         puts("Valid Vote");
